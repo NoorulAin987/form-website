@@ -6,8 +6,8 @@
     <title>Login Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,58 +16,65 @@
         }
         .login-container {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(33, 147, 176, 0.15);
+            width: 340px;
         }
         .login-container h2 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            color: #2193b0;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 7px;
+            font-weight: 500;
+            color: #333;
         }
         .form-group input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 11px;
+            border: 1px solid #b2bec3;
+            border-radius: 5px;
+            font-size: 15px;
+            transition: border-color 0.2s;
         }
         .form-group input:focus {
-            border-color: #007BFF;
+            border-color: #2193b0;
             outline: none;
         }
         .login-btn {
             width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
+            padding: 12px;
+            background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
             color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 17px;
+            font-weight: 600;
+            transition: background 0.2s;
         }
         .login-btn:hover {
-            background-color: #0056b3;
+            background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
         }
         .error-message {
-            color: red;
-            font-size: 14px;
+            color: #e74c3c;
+            font-size: 15px;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 12px;
+            min-height: 20px;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form action="process_login.php" method="POST">
+        <form id="loginForm" action="process_login.php" method="POST" novalidate>
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
@@ -78,9 +85,35 @@
             </div>
             <button type="submit" class="login-btn">Login</button>
         </form>
-        <div class="error-message">
-            <!-- Error messages can be displayed here -->
-        </div>
+        <div class="error-message" id="errorMsg"></div>
     </div>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const errorMsg = document.getElementById('errorMsg');
+
+        loginForm.addEventListener('submit', function(e) {
+            errorMsg.textContent = '';
+            const username = loginForm.username.value.trim();
+            const password = loginForm.password.value.trim();
+
+            if (!username || !password) {
+                errorMsg.textContent = 'Please fill in both fields.';
+                e.preventDefault();
+                return;
+            }
+
+            // Example: Add more validation if needed
+            if (username.length < 3) {
+                errorMsg.textContent = 'Username must be at least 3 characters.';
+                e.preventDefault();
+                return;
+            }
+            if (password.length < 6) {
+                errorMsg.textContent = 'Password must be at least 6 characters.';
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
 </body>
 </html>
